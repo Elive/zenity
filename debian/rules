@@ -4,7 +4,7 @@ DEB_SOURCE_PACKAGE := $(shell dpkg-parsechangelog | grep '^Source:' | cut -f 2 -
 version = $(shell dpkg-parsechangelog | awk '/^Version/{print $$2}')
 
 CXXFLAGS += -Wshadow -ffunction-sections -fdata-sections -ffast-math
-CFLAGS += -fvisibility=hidden -Wshadow -ffunction-sections -fdata-sections -ffast-math
+CFLAGS += -fvisibility=hidden -Wshadow -ffunction-sections -fdata-sections -ffast-math -Wno-deprecated-declarations -Wno-error=format
 # append these ones if you see compiling errors like  [-Werror=format-security]:
 #-Wno-error=format-security
 LDFLAGS += -fvisibility=hidden -fdata-sections -Wl,--as-needed -Wl,--gc-sections -Wl,-O1 -Wl,-z,defs

@@ -131,6 +131,8 @@ void zenity_password_dialog (ZenityData *data, ZenityPasswordData *password_data
                      TRUE,
                      12);
 
+  gtk_window_set_position (GTK_WINDOW (dialog), GTK_WIN_POS_CENTER);
+
   if (data->dialog_title)
     gtk_window_set_title (GTK_WINDOW (dialog), data->dialog_title);
 

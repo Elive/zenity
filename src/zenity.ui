@@ -107,6 +107,7 @@
                 <property name="xalign">0</property>
                 <property name="label" translatable="yes">C_alendar:</property>
                 <property name="use_underline">True</property>
+
                 <property name="mnemonic_widget">zenity_calendar</property>
                 <accessibility>
                   <relation type="label-for" target="zenity_calendar"/>
@@ -220,7 +221,8 @@
                     <property name="xalign">0</property>
                     <property name="label" translatable="yes">_Enter new text:</property>
                     <property name="use_markup">True</property>
-                    <property name="use_underline">True</property>
+                    <property name="wrap">True</property>
+                    <property name="ellipsize">start</property>
                   </object>
                   <packing>
                     <property name="expand">False</property>
@@ -1041,6 +1043,8 @@
                 <property name="xalign">0</property>
                 <property name="label" translatable="yes">Select items from the list below.</property>
                 <property name="use_markup">True</property>
+                <property name="wrap">True</property>
+
               </object>
               <packing>
                 <property name="expand">False</property>

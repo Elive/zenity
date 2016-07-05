@@ -1,13 +1,38 @@
 #!/usr/bin/make -f
 
-include /usr/share/cdbs/1/rules/debhelper.mk
-include /usr/share/cdbs/1/class/gnome.mk
-include /usr/share/cdbs/1/rules/utils.mk
-include /usr/share/gnome-pkg-tools/1/rules/uploaders.mk
--include /usr/share/gnome-pkg-tools/1/rules/gnome-get-source.mk
+DEB_SOURCE_PACKAGE := $(shell dpkg-parsechangelog | grep '^Source:' | cut -f 2 -d ' ')
+version = $(shell dpkg-parsechangelog | awk '/^Version/{print $$2}')
 
-DEB_CONFIGURE_EXTRA_FLAGS += --disable-scrollkeeper
+CXXFLAGS += -Wshadow -ffunction-sections -fdata-sections -ffast-math
+CFLAGS += -fvisibility=hidden -Wshadow -ffunction-sections -fdata-sections -ffast-math
+# append these ones if you see compiling errors like  [-Werror=format-security]:
+#-Wno-error=format-security
+LDFLAGS += -fvisibility=hidden -fdata-sections -Wl,--as-needed -Wl,--gc-sections -Wl,-O1 -Wl,-z,defs
 
-LDFLAGS += -Wl,-O1 -Wl,-z,defs -Wl,--as-needed
+%:
+	dh $@
 
-DEB_DH_INSTALL_ARGS += --list-missing
+configure_flags := \
+    --disable-scrollkeeper \
+	--disable-maintainer-mode \
+	$(NULL)
+
+
+override_dh_auto_configure:
+	./autogen.sh
+	dh_auto_configure -- $(configure_flags)
+
+
+override_dh_install:
+	dh_install -X.la --fail-missing
+
+override_dh_strip:
+	dh_strip --dbg-package=$(DEB_SOURCE_PACKAGE)-dbg
+
+
+#override_dh_compress:
+#	# do not compress some files
+#	dh_compress -X.c -X.eps -XMakefile -XMakefile.in -XMakefile.am -X.xml
+
+
+
